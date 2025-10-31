@@ -1,0 +1,2821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProTraining - Sistema Profesional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --text: #eee;
+            --text-secondary: #a8a8a8;
+            --bg: #0f0f1e;
+            --card: #1e1e3f;
+            --border: #2a2a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--primary) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-bottom: 3px solid var(--highlight);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--text);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: var(--text);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.3);
+            border-color: var(--highlight);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--highlight) 0%, #c23855 100%);
+            border-color: var(--highlight);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            color: var(--highlight);
+            font-weight: 700;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            padding: 12px 15px;
+            background: var(--secondary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--highlight) 0%, #c23855 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #05b890 100%);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .list-item {
+            background: var(--secondary);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .list-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.2);
+        }
+
+        .list-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .list-item-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--highlight);
+        }
+
+        .list-item-meta {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--accent);
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: var(--primary);
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: var(--primary);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: var(--accent);
+            color: var(--text);
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border: 2px solid var(--border);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 2em;
+            cursor: pointer;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--highlight);
+            transform: rotate(90deg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--highlight);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--highlight), transparent);
+            margin: 30px 0;
+        }
+
+        .exercise-block {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--success);
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .exercise-name {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: var(--success);
+        }
+
+        .exercise-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .detail-item {
+            background: var(--accent);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .detail-value {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            padding: 8px 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .icon-btn:hover {
+            background: var(--highlight);
+            transform: scale(1.05);
+        }
+
+        .delete-btn {
+            background: #d32f2f;
+        }
+
+        .delete-btn:hover {
+            background: #b71c1c;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .nav-tabs, .btn, .action-buttons {
+                display: none !important;
+            }
+            
+            .card {
+                break-inside: avoid;
+                border: 1px solid #ddd;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .tab-btn {
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1em;
+        }
+
+        .week-day {
+            background: var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .week-day-header {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: var(--highlight);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ PROTRAINING SYSTEM</h1>
+        <p class="subtitle">Sistema Profesional de Gestión Deportiva y Entrenamiento</p>
+    </header>
+
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('clientes')">👥 Clientes</button>
+            <button class="tab-btn" onclick="switchTab('entrenamientos')">💪 Entrenamientos</button>
+            <button class="tab-btn" onclick="switchTab('evaluaciones')">📊 Evaluaciones</button>
+            <button class="tab-btn" onclick="switchTab('nutricion')">🥗 Nutrición</button>
+            <button class="tab-btn" onclick="switchTab('notas')">📝 Notas</button>
+        </nav>
+
+        <!-- TAB CLIENTES -->
+        <div id="tab-clientes" class="tab-content active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Gestión de Clientes/Atletas</h2>
+                    <button class="btn" onclick="openClientModal()">+ Nuevo Cliente</button>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchClients" placeholder="🔍 Buscar cliente..." onkeyup="searchClients()">
+                </div>
+
+                <div id="clientsList"></div>
+            </div>
+        </div>
+
+        <!-- TAB ENTRENAMIENTOS -->
+        <div id="tab-entrenamientos" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Planes de Entrenamiento</h2>
+                    <button class="btn" onclick="openTrainingModal()">+ Nuevo Plan</button>
+                </div>
+                <div id="trainingsList"></div>
+            </div>
+        </div>
+
+        <!-- TAB EVALUACIONES -->
+        <div id="tab-evaluaciones" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Evaluaciones y Tests</h2>
+                    <button class="btn" onclick="openEvaluationModal()">+ Nueva Evaluación</button>
+                </div>
+                <div id="evaluationsList"></div>
+            </div>
+        </div>
+
+        <!-- TAB NUTRICIÓN -->
+        <div id="tab-nutricion" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Planes Nutricionales</h2>
+                    <button class="btn" onclick="openNutritionModal()">+ Nuevo Plan</button>
+                </div>
+                <div id="nutritionList"></div>
+            </div>
+        </div>
+
+        <!-- TAB NOTAS -->
+        <div id="tab-notas" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Notas y Observaciones</h2>
+                    <button class="btn" onclick="openNoteModal()">+ Nueva Nota</button>
+                </div>
+                <div id="notesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CLIENTE -->
+    <div id="clientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title">Ficha Técnica del Cliente</h2>
+                <button class="close-btn" onclick="closeModal('clientModal')">&times;</button>
+            </div>
+
+            <form id="clientForm" onsubmit="saveClient(event)">
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📋 Datos Personales</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento *</label>
+                        <input type="date" name="fechaNacimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Género *</label>
+                        <select name="genero" required>
+                            <option value="">Seleccionar</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" name="telefono">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" name="direccion">
+                    </div>
+                </div>
+
+                <h3 style="color: var(--highlight); margin: 30px 0 15px 0;">📏 Datos Antropométricos</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Altura (cm)</label>
+                        <input type="number" step="0.1" name="altura">
+                    </div>
+                    <div class="form-group">
+                        <label>Peso Inicial (kg)</label>
+                        <input type="number" step="0.1" name="pesoInicial">
+                    </div>
+                    <div class="form-group">
+                        <label>Peso Actual (kg)</label>
+                        <input type="number" step="0.1" name="pesoActual">
+                    </div>
+                    <div class="form-group">
+                        <label>% Grasa Corporal</label>
+                        <input type="number" step="0.1" name="grasaCorporal">
+                    </div>
+                    <div class="form-group">
+                        <label>Masa Muscular (kg)</label>
+                        <input type="number" step="0.1" name="masaMuscular">
+                    </div>
+                    <div class="form-group">
+                        <label>IMC</label>
+                        <input type="number" step="0.1" name="imc">
+                    </div>
+                </div>
+
+                <h3 style="color: var(--highlight); margin: 30px 0 15px 0;">⚕️ Información Médica</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Tipo de Sangre</label>
+                        <select name="tipoSangre">
+                            <option value="">Seleccionar</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Frecuencia Cardíaca en Reposo</label>
+                        <input type="number" name="fcReposo">
+                    </div>
+                    <div class="form-group">
+                        <label>Presión Arterial</label>
+                        <input type="text" name="presionArterial" placeholder="120/80">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Lesiones Previas</label>
+                    <textarea name="lesionesPrevias" placeholder="Detalle lesiones anteriores..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Condiciones Médicas</label>
+                    <textarea name="condicionesMedicas" placeholder="Alergias, enfermedades crónicas, medicamentos..."></textarea>
+                </div>
+
+                <h3 style="color: var(--highlight); margin: 30px 0 15px 0;">🎯 Objetivos y Metas</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Objetivo Principal</label>
+                        <select name="objetivoPrincipal">
+                            <option value="">Seleccionar</option>
+                            <option value="perdidaPeso">Pérdida de Peso</option>
+                            <option value="gananciaMusculo">Ganancia Muscular</option>
+                            <option value="mejoraRendimiento">Mejora de Rendimiento</option>
+                            <option value="rehabilitacion">Rehabilitación</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="competicion">Preparación Competición</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nivel de Experiencia</label>
+                        <select name="nivelExperiencia">
+                            <option value="">Seleccionar</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                            <option value="elite">Élite</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Deporte/Disciplina Principal</label>
+                    <input type="text" name="deportePrincipal" placeholder="Ej: Fútbol, CrossFit, Triatlón...">
+                </div>
+
+                <div class="form-group">
+                    <label>Objetivos Específicos</label>
+                    <textarea name="objetivosEspecificos" placeholder="Metas detalladas, tiempos, marcas..."></textarea>
+                </div>
+
+                <h3 style="color: var(--highlight); margin: 30px 0 15px 0;">📅 Disponibilidad</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Días disponibles/semana</label>
+                        <input type="number" name="diasDisponibles" min="1" max="7">
+                    </div>
+                    <div class="form-group">
+                        <label>Horas disponibles/día</label>
+                        <input type="number" step="0.5" name="horasDisponibles">
+                    </div>
+                    <div class="form-group">
+                        <label>Horario Preferido</label>
+                        <select name="horarioPreferido">
+                            <option value="">Seleccionar</option>
+                            <option value="manana">Mañana (6:00-12:00)</option>
+                            <option value="tarde">Tarde (12:00-18:00)</option>
+                            <option value="noche">Noche (18:00-22:00)</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Notas Adicionales</label>
+                    <textarea name="notasAdicionales" placeholder="Información adicional relevante..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">💾 Guardar Cliente</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('clientModal')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL ENTRENAMIENTO -->
+    <div id="trainingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title">Plan de Entrenamiento Profesional</h2>
+                <button class="close-btn" onclick="closeModal('trainingModal')">&times;</button>
+            </div>
+
+            <form id="trainingForm" onsubmit="saveTraining(event)">
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📋 Información General</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Seleccionar Cliente *</label>
+                        <select name="clienteId" id="trainingClientSelect" required>
+                            <option value="">Seleccionar cliente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Plan *</label>
+                        <input type="text" name="nombrePlan" required placeholder="Ej: Hipertrofia 12 semanas">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Plan *</label>
+                        <select name="tipoPlan" required>
+                            <option value="">Seleccionar</option>
+                            <option value="individual">Individual</option>
+                            <option value="grupal">Grupal</option>
+                            <option value="deportivo">Deportivo Específico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Objetivo del Plan *</label>
+                        <select name="objetivoPlan" required>
+                            <option value="">Seleccionar</option>
+                            <option value="hipertrofia">Hipertrofia Muscular</option>
+                            <option value="fuerza">Ganancia de Fuerza</option>
+                            <option value="resistencia">Resistencia</option>
+                            <option value="potencia">Potencia</option>
+                            <option value="perdidaGrasa">Pérdida de Grasa</option>
+                            <option value="acondicionamiento">Acondicionamiento General</option>
+                            <option value="rehabilitacion">Rehabilitación</option>
+                            <option value="rendimientoDeportivo">Rendimiento Deportivo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Inicio *</label>
+                        <input type="date" name="fechaInicio" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Fin *</label>
+                        <input type="date" name="fechaFin" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Duración (semanas)</label>
+                        <input type="number" name="duracionSemanas" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Fase de Periodización</label>
+                        <select name="fasePeriodizacion">
+                            <option value="">Seleccionar</option>
+                            <option value="anatomica">Anatómica/Adaptación</option>
+                            <option value="hipertrofia">Hipertrofia</option>
+                            <option value="fuerzaMaxima">Fuerza Máxima</option>
+                            <option value="potencia">Potencia</option>
+                            <option value="precompeticion">Pre-Competición</option>
+                            <option value="competicion">Competición</option>
+                            <option value="transicion">Transición</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Frecuencia Semanal</label>
+                        <input type="number" name="frecuenciaSemanal" min="1" max="7" placeholder="Días por semana">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción del Plan</label>
+                    <textarea name="descripcionPlan" placeholder="Descripción general, metodología, progresión..."></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📅 Planificación Semanal</h3>
+                
+                <div id="weeklyPlanContainer">
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>LUNES</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('lunes')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-lunes"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>MARTES</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('martes')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-martes"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>MIÉRCOLES</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('miercoles')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-miercoles"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>JUEVES</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('jueves')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-jueves"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>VIERNES</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('viernes')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-viernes"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>SÁBADO</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('sabado')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-sabado"></div>
+                    </div>
+
+                    <div class="week-day">
+                        <div class="week-day-header">
+                            <span>DOMINGO</span>
+                            <button type="button" class="btn" style="padding: 8px 15px;" onclick="addExerciseDay('domingo')">+ Ejercicio</button>
+                        </div>
+                        <div id="exercises-domingo"></div>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📝 Metodología y Variables</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Sistema de Entrenamiento</label>
+                        <select name="sistemaEntrenamiento">
+                            <option value="">Seleccionar</option>
+                            <option value="series">Series Tradicionales</option>
+                            <option value="superseries">Superseries</option>
+                            <option value="triseries">Triseries</option>
+                            <option value="circuito">Circuito</option>
+                            <option value="piramidal">Piramidal</option>
+                            <option value="dropset">Drop Sets</option>
+                            <option value="rest-pause">Rest-Pause</option>
+                            <option value="cluster">Cluster Sets</option>
+                            <option value="emom">EMOM</option>
+                            <option value="amrap">AMRAP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Intensidad Media (%RM)</label>
+                        <input type="text" name="intensidadMedia" placeholder="Ej: 70-85%">
+                    </div>
+                    <div class="form-group">
+                        <label>Volumen Total (Sets/Semana)</label>
+                        <input type="number" name="volumenTotal">
+                    </div>
+                    <div class="form-group">
+                        <label>Densidad (Descanso)</label>
+                        <input type="text" name="densidad" placeholder="Ej: 60-90 seg">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Progresión Programada</label>
+                    <textarea name="progresionProgramada" placeholder="Detalle cómo se incrementará la carga, volumen o intensidad..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Ejercicios Prohibidos/Contraindicados</label>
+                    <textarea name="ejerciciosProhibidos" placeholder="Por lesiones, limitaciones, etc..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Observaciones del Entrenador</label>
+                    <textarea name="observacionesEntrenador" placeholder="Notas importantes, consideraciones especiales..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">💾 Guardar Plan</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('trainingModal')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EVALUACIÓN -->
+    <div id="evaluationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title">Evaluación y Tests Deportivos</h2>
+                <button class="close-btn" onclick="closeModal('evaluationModal')">&times;</button>
+            </div>
+
+            <form id="evaluationForm" onsubmit="saveEvaluation(event)">
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📋 Información General</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Seleccionar Cliente *</label>
+                        <select name="clienteId" id="evaluationClientSelect" required>
+                            <option value="">Seleccionar cliente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Evaluación *</label>
+                        <input type="date" name="fechaEvaluacion" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Evaluación *</label>
+                        <select name="tipoEvaluacion" required>
+                            <option value="">Seleccionar</option>
+                            <option value="inicial">Evaluación Inicial</option>
+                            <option value="seguimiento">Seguimiento</option>
+                            <option value="intermedia">Evaluación Intermedia</option>
+                            <option value="final">Evaluación Final</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">💪 Tests de Fuerza</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Press Banca 1RM (kg)</label>
+                        <input type="number" step="0.5" name="pressBanca1RM">
+                    </div>
+                    <div class="form-group">
+                        <label>Sentadilla 1RM (kg)</label>
+                        <input type="number" step="0.5" name="sentadilla1RM">
+                    </div>
+                    <div class="form-group">
+                        <label>Peso Muerto 1RM (kg)</label>
+                        <input type="number" step="0.5" name="pesoMuerto1RM">
+                    </div>
+                    <div class="form-group">
+                        <label>Press Militar 1RM (kg)</label>
+                        <input type="number" step="0.5" name="pressMilitar1RM">
+                    </div>
+                    <div class="form-group">
+                        <label>Dominadas Máximas</label>
+                        <input type="number" name="dominadasMax">
+                    </div>
+                    <div class="form-group">
+                        <label>Flexiones Máximas</label>
+                        <input type="number" name="flexionesMax">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🏃 Tests de Resistencia</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>VO2 Max (ml/kg/min)</label>
+                        <input type="number" step="0.1" name="vo2Max">
+                    </div>
+                    <div class="form-group">
+                        <label>Test Cooper (metros)</label>
+                        <input type="number" name="testCooper">
+                    </div>
+                    <div class="form-group">
+                        <label>Umbral Anaeróbico (pulsaciones)</label>
+                        <input type="number" name="umbralAnaerobico">
+                    </div>
+                    <div class="form-group">
+                        <label>Test de Conconi (FC)</label>
+                        <input type="text" name="testConconi">
+                    </div>
+                    <div class="form-group">
+                        <label>Burpees en 3 min</label>
+                        <input type="number" name="burpees3min">
+                    </div>
+                    <div class="form-group">
+                        <label>Test de Ruffier</label>
+                        <input type="text" name="testRuffier">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">⚡ Tests de Velocidad y Potencia</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Sprint 30m (segundos)</label>
+                        <input type="number" step="0.01" name="sprint30m">
+                    </div>
+                    <div class="form-group">
+                        <label>Sprint 60m (segundos)</label>
+                        <input type="number" step="0.01" name="sprint60m">
+                    </div>
+                    <div class="form-group">
+                        <label>Sprint 100m (segundos)</label>
+                        <input type="number" step="0.01" name="sprint100m">
+                    </div>
+                    <div class="form-group">
+                        <label>Salto Vertical (cm)</label>
+                        <input type="number" step="0.1" name="saltoVertical">
+                    </div>
+                    <div class="form-group">
+                        <label>Salto Horizontal (cm)</label>
+                        <input type="number" step="0.1" name="saltoHorizontal">
+                    </div>
+                    <div class="form-group">
+                        <label>Test de Margaria (watts)</label>
+                        <input type="number" step="0.1" name="testMargaria">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🤸 Tests de Flexibilidad y Movilidad</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Test Sit and Reach (cm)</label>
+                        <input type="number" step="0.1" name="sitAndReach">
+                    </div>
+                    <div class="form-group">
+                        <label>Flexión de Hombro (grados)</label>
+                        <input type="number" name="flexionHombro">
+                    </div>
+                    <div class="form-group">
+                        <label>Rotación Cadera (grados)</label>
+                        <input type="number" name="rotacionCadera">
+                    </div>
+                    <div class="form-group">
+                        <label>Flexión Dorsal Tobillo (grados)</label>
+                        <input type="number" name="flexionTobillo">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">⚖️ Composición Corporal</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Peso (kg)</label>
+                        <input type="number" step="0.1" name="pesoEval">
+                    </div>
+                    <div class="form-group">
+                        <label>% Grasa Corporal</label>
+                        <input type="number" step="0.1" name="grasaCorporalEval">
+                    </div>
+                    <div class="form-group">
+                        <label>Masa Muscular (kg)</label>
+                        <input type="number" step="0.1" name="masaMuscularEval">
+                    </div>
+                    <div class="form-group">
+                        <label>Masa Ósea (kg)</label>
+                        <input type="number" step="0.1" name="masaOsea">
+                    </div>
+                    <div class="form-group">
+                        <label>Agua Corporal (%)</label>
+                        <input type="number" step="0.1" name="aguaCorporal">
+                    </div>
+                    <div class="form-group">
+                        <label>Grasa Visceral</label>
+                        <input type="number" step="0.1" name="grasaVisceral">
+                    </div>
+                </div>
+
+                <h4 style="color: var(--success); margin: 20px 0 10px 0;">Perímetros (cm)</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Cuello</label>
+                        <input type="number" step="0.1" name="perimetroCuello">
+                    </div>
+                    <div class="form-group">
+                        <label>Pecho</label>
+                        <input type="number" step="0.1" name="perimetroPecho">
+                    </div>
+                    <div class="form-group">
+                        <label>Cintura</label>
+                        <input type="number" step="0.1" name="perimetroCintura">
+                    </div>
+                    <div class="form-group">
+                        <label>Cadera</label>
+                        <input type="number" step="0.1" name="perimetroCadera">
+                    </div>
+                    <div class="form-group">
+                        <label>Brazo Derecho</label>
+                        <input type="number" step="0.1" name="perimetroBrazoDer">
+                    </div>
+                    <div class="form-group">
+                        <label>Brazo Izquierdo</label>
+                        <input type="number" step="0.1" name="perimetroBrazoIzq">
+                    </div>
+                    <div class="form-group">
+                        <label>Muslo Derecho</label>
+                        <input type="number" step="0.1" name="perimetroMusloDer">
+                    </div>
+                    <div class="form-group">
+                        <label>Muslo Izquierdo</label>
+                        <input type="number" step="0.1" name="perimetroMusloIzq">
+                    </div>
+                    <div class="form-group">
+                        <label>Gemelo Derecho</label>
+                        <input type="number" step="0.1" name="perimetroGemeloDer">
+                    </div>
+                    <div class="form-group">
+                        <label>Gemelo Izquierdo</label>
+                        <input type="number" step="0.1" name="perimetroGemeloIzq">
+                    </div>
+                </div>
+
+                <h4 style="color: var(--success); margin: 20px 0 10px 0;">Pliegues Cutáneos (mm)</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Tríceps</label>
+                        <input type="number" step="0.1" name="pliegueTriceps">
+                    </div>
+                    <div class="form-group">
+                        <label>Subescapular</label>
+                        <input type="number" step="0.1" name="pliegueSubescapular">
+                    </div>
+                    <div class="form-group">
+                        <label>Supraespinal</label>
+                        <input type="number" step="0.1" name="pliegueSupraespinal">
+                    </div>
+                    <div class="form-group">
+                        <label>Abdominal</label>
+                        <input type="number" step="0.1" name="pliegueAbdominal">
+                    </div>
+                    <div class="form-group">
+                        <label>Muslo</label>
+                        <input type="number" step="0.1" name="pliegueMuslo">
+                    </div>
+                    <div class="form-group">
+                        <label>Pantorrilla</label>
+                        <input type="number" step="0.1" name="plieguePantorrilla">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🎯 Tests Deportivos Específicos</h3>
+                <div class="form-group">
+                    <label>Deporte/Disciplina</label>
+                    <input type="text" name="deporteEspecifico" placeholder="Ej: Fútbol, Baloncesto, Natación...">
+                </div>
+
+                <div class="form-group">
+                    <label>Tests Realizados</label>
+                    <textarea name="testsEspecificos" rows="6" placeholder="Detalle tests específicos del deporte: agilidad, técnica, coordinación, tests funcionales..."></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📊 Análisis y Conclusiones</h3>
+                <div class="form-group">
+                    <label>Fortalezas Detectadas</label>
+                    <textarea name="fortalezas" placeholder="Aspectos positivos, puntos fuertes..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Áreas de Mejora</label>
+                    <textarea name="areasMejora" placeholder="Debilidades, aspectos a trabajar..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Recomendaciones</label>
+                    <textarea name="recomendaciones" placeholder="Sugerencias de entrenamiento, correcciones técnicas..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Observaciones Generales</label>
+                    <textarea name="observacionesGenerales" placeholder="Notas adicionales, consideraciones especiales..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">💾 Guardar Evaluación</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('evaluationModal')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL NUTRICIÓN -->
+    <div id="nutritionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title">Plan Nutricional Profesional</h2>
+                <button class="close-btn" onclick="closeModal('nutritionModal')">&times;</button>
+            </div>
+
+            <form id="nutritionForm" onsubmit="saveNutrition(event)">
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📋 Información General</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Seleccionar Cliente *</label>
+                        <select name="clienteId" id="nutritionClientSelect" required>
+                            <option value="">Seleccionar cliente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre del Plan *</label>
+                        <input type="text" name="nombrePlanNutri" required placeholder="Ej: Definición 8 semanas">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Inicio *</label>
+                        <input type="date" name="fechaInicioNutri" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Fin</label>
+                        <input type="date" name="fechaFinNutri">
+                    </div>
+                    <div class="form-group">
+                        <label>Objetivo Nutricional *</label>
+                        <select name="objetivoNutricional" required>
+                            <option value="">Seleccionar</option>
+                            <option value="deficitCalorico">Déficit Calórico (Pérdida Grasa)</option>
+                            <option value="superavitCalorico">Superávit Calórico (Ganancia Muscular)</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="recomposicion">Recomposición Corporal</option>
+                            <option value="rendimiento">Optimización Rendimiento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🔢 Macronutrientes y Calorías</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>TMB - Tasa Metabólica Basal (kcal)</label>
+                        <input type="number" name="tmb">
+                    </div>
+                    <div class="form-group">
+                        <label>TDEE - Gasto Calórico Total (kcal)</label>
+                        <input type="number" name="tdee">
+                    </div>
+                    <div class="form-group">
+                        <label>Calorías Objetivo Diarias (kcal) *</label>
+                        <input type="number" name="caloriasObjetivo" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Proteínas (g/día) *</label>
+                        <input type="number" step="0.1" name="proteinasDiarias" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Carbohidratos (g/día) *</label>
+                        <input type="number" step="0.1" name="carbohidratosDiarios" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Grasas (g/día) *</label>
+                        <input type="number" step="0.1" name="grasasDiarias" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fibra (g/día)</label>
+                        <input type="number" step="0.1" name="fibraDiaria">
+                    </div>
+                    <div class="form-group">
+                        <label>Agua (litros/día)</label>
+                        <input type="number" step="0.1" name="aguaDiaria">
+                    </div>
+                </div>
+
+                <h4 style="color: var(--success); margin: 20px 0 10px 0;">Distribución de Macros (%)</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>% Proteínas</label>
+                        <input type="number" step="1" name="porcentajeProteinas" placeholder="Ej: 30">
+                    </div>
+                    <div class="form-group">
+                        <label>% Carbohidratos</label>
+                        <input type="number" step="1" name="porcentajeCarbohidratos" placeholder="Ej: 45">
+                    </div>
+                    <div class="form-group">
+                        <label>% Grasas</label>
+                        <input type="number" step="1" name="porcentajeGrasas" placeholder="Ej: 25">
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🍽️ Distribución de Comidas</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Número de Comidas/Día</label>
+                        <input type="number" name="numeroComidas" min="3" max="8" placeholder="Ej: 5">
+                    </div>
+                    <div class="form-group">
+                        <label>Timing Nutricional</label>
+                        <select name="timingNutricional">
+                            <option value="">Seleccionar</option>
+                            <option value="normal">Distribución Normal</option>
+                            <option value="ayunoIntermitente">Ayuno Intermitente</option>
+                            <option value="cicloCarbohidratos">Ciclo de Carbohidratos</option>
+                            <option value="timingPeriEntreno">Timing Peri-Entrenamiento</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4 style="color: var(--success); margin: 20px 0 10px 0;">Menú Semanal Detallado</h4>
+                
+                <div class="form-group">
+                    <label>LUNES - Comidas</label>
+                    <textarea name="menuLunes" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>MARTES - Comidas</label>
+                    <textarea name="menuMartes" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>MIÉRCOLES - Comidas</label>
+                    <textarea name="menuMiercoles" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>JUEVES - Comidas</label>
+                    <textarea name="menuJueves" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>VIERNES - Comidas</label>
+                    <textarea name="menuViernes" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>SÁBADO - Comidas</label>
+                    <textarea name="menuSabado" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>DOMINGO - Comidas</label>
+                    <textarea name="menuDomingo" rows="4" placeholder="Desayuno: ...&#10;Media Mañana: ...&#10;Almuerzo: ...&#10;Merienda: ...&#10;Cena: ..."></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">💊 Suplementación</h3>
+                <div class="form-group">
+                    <label>Suplementos Recomendados</label>
+                    <textarea name="suplementosRecomendados" rows="5" placeholder="Detalle suplementos, dosis, momento de toma...&#10;Ej:&#10;- Proteína Whey: 30g post-entreno&#10;- Creatina: 5g diarios&#10;- Omega-3: 2g con comidas"></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">🍎 Alimentos y Restricciones</h3>
+                <div class="form-group">
+                    <label>Alimentos Recomendados</label>
+                    <textarea name="alimentosRecomendados" placeholder="Listado de alimentos prioritarios para este plan..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Alimentos a Evitar</label>
+                    <textarea name="alimentosEvitar" placeholder="Alimentos restringidos o prohibidos..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Alergias e Intolerancias</label>
+                    <textarea name="alergiasIntolerancias" placeholder="Alergias alimentarias, intolerancias..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferencias Alimentarias</label>
+                    <textarea name="preferenciasAlimentarias" placeholder="Vegetariano, vegano, preferencias culturales..."></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">⚡ Nutrición Peri-Entrenamiento</h3>
+                <div class="form-group">
+                    <label>Pre-Entrenamiento (timing y alimentos)</label>
+                    <textarea name="preEntrenamiento" placeholder="Ej: 60-90 min antes: avena + plátano + café"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Intra-Entrenamiento</label>
+                    <textarea name="intraEntrenamiento" placeholder="Durante el entreno: bebida isotónica, BCAA..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Post-Entrenamiento</label>
+                    <textarea name="postEntrenamiento" placeholder="Ej: Inmediatamente: proteína + carbohidratos simples"></textarea>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight); margin: 20px 0 15px 0;">📝 Indicaciones y Estrategias</h3>
+                <div class="form-group">
+                    <label>Estrategias Nutricionales</label>
+                    <textarea name="estrategiasNutricionales" placeholder="Meal prep, control de porciones, estrategias para adherencia..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Cheat Meal / Refeed</label>
+                    <textarea name="cheatMeal" placeholder="Frecuencia y pautas para comidas libres o recargas..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Recomendaciones Generales</label>
+                    <textarea name="recomendacionesNutri" placeholder="Consejos adicionales, hábitos saludables..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">💾 Guardar Plan Nutricional</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('nutritionModal')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL NOTA -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="card-title">Nueva Nota / Observación</h2>
+                <button class="close-btn" onclick="closeModal('noteModal')">&times;</button>
+            </div>
+
+            <form id="noteForm" onsubmit="saveNote(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Seleccionar Cliente</label>
+                        <select name="clienteId" id="noteClientSelect">
+                            <option value="">General (sin cliente específico)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha *</label>
+                        <input type="date" name="fechaNota" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <select name="categoriaNota" required>
+                            <option value="">Seleccionar</option>
+                            <option value="sesion">Observación de Sesión</option>
+                            <option value="progreso">Progreso</option>
+                            <option value="medica">Nota Médica</option>
+                            <option value="nutricional">Nota Nutricional</option>
+                            <option value="psicologica">Aspecto Psicológico</option>
+                            <option value="tecnica">Corrección Técnica</option>
+                            <option value="general">General</option>
+                            <option value="importante">Importante</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Prioridad</label>
+                        <select name="prioridad">
+                            <option value="baja">Baja</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Título de la Nota *</label>
+                    <input type="text" name="tituloNota" required placeholder="Ej: Mejora notable en técnica de sentadilla">
+                </div>
+
+                <div class="form-group">
+                    <label>Contenido de la Nota *</label>
+                    <textarea name="contenidoNota" rows="8" required placeholder="Descripción detallada..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Acciones a Seguir</label>
+                    <textarea name="accionesNota" rows="3" placeholder="Próximos pasos, seguimiento requerido..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success">💾 Guardar Nota</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('noteModal')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE CLIENTE -->
+    <div id="clientDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 1200px;">
+            <div class="modal-header">
+                <h2 class="card-title">Ficha Técnica Completa</h2>
+                <div class="btn-group" style="margin: 0;">
+                    <button class="btn btn-success" onclick="exportClientToPDF()">📥 Exportar PDF</button>
+                    <button class="btn btn-secondary" onclick="printClient()">🖨️ Imprimir</button>
+                    <button class="close-btn" onclick="closeModal('clientDetailModal')">&times;</button>
+                </div>
+            </div>
+            <div id="clientDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE ENTRENAMIENTO -->
+    <div id="trainingDetailModal" class="modal">
+        <div class="modal-content" style="max-width: 1200px;">
+            <div class="modal-header">
+                <h2 class="card-title">Plan de Entrenamiento Detallado</h2>
+                <div class="btn-group" style="margin: 0;">
+                    <button class="btn btn-success" onclick="exportTrainingToPDF()">📥 Exportar PDF</button>
+                    <button class="btn btn-secondary" onclick="printTraining()">🖨️ Imprimir</button>
+                    <button class="close-btn" onclick="closeModal('trainingDetailModal')">&times;</button>
+                </div>
+            </div>
+            <div id="trainingDetailContent"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+        // Datos en memoria
+        let clients = [];
+        let trainings = [];
+        let evaluations = [];
+        let nutritionPlans = [];
+        let notes = [];
+        let currentClientId = null;
+        let currentTrainingId = null;
+        let currentEditId = null;
+        let weeklyExercises = {
+            lunes: [], martes: [], miercoles: [], jueves: [],
+            viernes: [], sabado: [], domingo: []
+        };
+
+        // Cargar datos al iniciar
+        window.onload = function() {
+            loadData();
+            renderAllData();
+            setDefaultDate();
+        };
+
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                if (!input.value) input.value = today;
+            });
+        }
+
+        // Gestión de datos
+        function loadData() {
+            clients = JSON.parse(localStorage.getItem('protraining_clients') || '[]');
+            trainings = JSON.parse(localStorage.getItem('protraining_trainings') || '[]');
+            evaluations = JSON.parse(localStorage.getItem('protraining_evaluations') || '[]');
+            nutritionPlans = JSON.parse(localStorage.getItem('protraining_nutrition') || '[]');
+            notes = JSON.parse(localStorage.getItem('protraining_notes') || '[]');
+        }
+
+        function saveData() {
+            localStorage.setItem('protraining_clients', JSON.stringify(clients));
+            localStorage.setItem('protraining_trainings', JSON.stringify(trainings));
+            localStorage.setItem('protraining_evaluations', JSON.stringify(evaluations));
+            localStorage.setItem('protraining_nutrition', JSON.stringify(nutritionPlans));
+            localStorage.setItem('protraining_notes', JSON.stringify(notes));
+        }
+
+        // Navegación entre tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // CLIENTES
+        function openClientModal(clientId = null) {
+            currentEditId = clientId;
+            const modal = document.getElementById('clientModal');
+            const form = document.getElementById('clientForm');
+            
+            if (clientId) {
+                const client = clients.find(c => c.id === clientId);
+                if (client) {
+                    Object.keys(client).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = client[key] || '';
+                    });
+                }
+            } else {
+                form.reset();
+                setDefaultDate();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function saveClient(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const clientData = {
+                id: currentEditId || Date.now().toString(),
+                fechaCreacion: currentEditId ? clients.find(c => c.id === currentEditId).fechaCreacion : new Date().toISOString()
+            };
+            
+            formData.forEach((value, key) => {
+                clientData[key] = value;
+            });
+
+            if (currentEditId) {
+                const index = clients.findIndex(c => c.id === currentEditId);
+                clients[index] = clientData;
+            } else {
+                clients.push(clientData);
+            }
+
+            saveData();
+            renderClients();
+            updateClientSelects();
+            closeModal('clientModal');
+            alert('✅ Cliente guardado correctamente');
+        }
+
+        function renderClients() {
+            const container = document.getElementById('clientsList');
+            
+            if (clients.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👥</div>
+                        <h3>No hay clientes registrados</h3>
+                        <p>Comienza agregando tu primer cliente</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = clients.map(client => {
+                const edad = calcularEdad(client.fechaNacimiento);
+                const imc = client.imc || 'N/A';
+                
+                return `
+                    <div class="list-item" onclick="viewClientDetail('${client.id}')">
+                        <div class="list-item-header">
+                            <div>
+                                <div class="list-item-title">${client.nombre}</div>
+                                <div class="list-item-meta">
+                                    <span class="badge">${edad} años</span>
+                                    <span class="badge">${client.genero}</span>
+                                    <span class="badge badge-success">IMC: ${imc}</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="event.stopPropagation(); openClientModal('${client.id}')">✏️ Editar</button>
+                                <button class="icon-btn delete-btn" onclick="event.stopPropagation(); deleteClient('${client.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="list-item-meta">
+                            📧 ${client.email || 'Sin email'} | 📞 ${client.telefono || 'Sin teléfono'}<br>
+                            🎯 ${client.objetivoPrincipal || 'Sin objetivo definido'} | 
+                            💪 ${client.nivelExperiencia || 'N/A'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewClientDetail(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+
+            const clientTrainings = trainings.filter(t => t.clienteId === clientId);
+            const clientEvaluations = evaluations.filter(e => e.clienteId === clientId);
+            const clientNutrition = nutritionPlans.filter(n => n.clienteId === clientId);
+            const clientNotes = notes.filter(n => n.clienteId === clientId);
+
+            const edad = calcularEdad(client.fechaNacimiento);
+
+            const content = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${edad}</div>
+                        <div class="stat-label">Años</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${client.pesoActual || 'N/A'}</div>
+                        <div class="stat-label">Peso (kg)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${client.altura || 'N/A'}</div>
+                        <div class="stat-label">Altura (cm)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${client.imc || 'N/A'}</div>
+                        <div class="stat-label">IMC</div>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">📋 Datos Personales</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><td><strong>Nombre:</strong></td><td>${client.nombre}</td></tr>
+                        <tr><td><strong>Fecha Nacimiento:</strong></td><td>${formatDate(client.fechaNacimiento)}</td></tr>
+                        <tr><td><strong>Género:</strong></td><td>${client.genero}</td></tr>
+                        <tr><td><strong>Email:</strong></td><td>${client.email || 'N/A'}</td></tr>
+                        <tr><td><strong>Teléfono:</strong></td><td>${client.telefono || 'N/A'}</td></tr>
+                        <tr><td><strong>Dirección:</strong></td><td>${client.direccion || 'N/A'}</td></tr>
+                    </table>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">📏 Antropometría</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><td><strong>Peso Inicial:</strong></td><td>${client.pesoInicial || 'N/A'} kg</td></tr>
+                        <tr><td><strong>Peso Actual:</strong></td><td>${client.pesoActual || 'N/A'} kg</td></tr>
+                        <tr><td><strong>Diferencia:</strong></td><td>${client.pesoInicial && client.pesoActual ? (client.pesoActual - client.pesoInicial).toFixed(1) : 'N/A'} kg</td></tr>
+                        <tr><td><strong>% Grasa Corporal:</strong></td><td>${client.grasaCorporal || 'N/A'}%</td></tr>
+                        <tr><td><strong>Masa Muscular:</strong></td><td>${client.masaMuscular || 'N/A'} kg</td></tr>
+                        <tr><td><strong>IMC:</strong></td><td>${client.imc || 'N/A'}</td></tr>
+                    </table>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">⚕️ Información Médica</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><td><strong>Tipo de Sangre:</strong></td><td>${client.tipoSangre || 'N/A'}</td></tr>
+                        <tr><td><strong>FC Reposo:</strong></td><td>${client.fcReposo || 'N/A'} bpm</td></tr>
+                        <tr><td><strong>Presión Arterial:</strong></td><td>${client.presionArterial || 'N/A'}</td></tr>
+                        <tr><td><strong>Lesiones Previas:</strong></td><td>${client.lesionesPrevias || 'Ninguna'}</td></tr>
+                        <tr><td><strong>Condiciones Médicas:</strong></td><td>${client.condicionesMedicas || 'Ninguna'}</td></tr>
+                    </table>
+                </div>
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">🎯 Objetivos y Perfil Deportivo</h3>
+                <div class="table-container">
+                    <table>
+                        <tr><td><strong>Objetivo Principal:</strong></td><td>${client.objetivoPrincipal || 'N/A'}</td></tr>
+                        <tr><td><strong>Nivel:</strong></td><td>${client.nivelExperiencia || 'N/A'}</td></tr>
+                        <tr><td><strong>Deporte Principal:</strong></td><td>${client.deportePrincipal || 'N/A'}</td></tr>
+                        <tr><td><strong>Objetivos Específicos:</strong></td><td>${client.objetivosEspecificos || 'N/A'}</td></tr>
+                        <tr><td><strong>Días Disponibles:</strong></td><td>${client.diasDisponibles || 'N/A'} días/semana</td></tr>
+                        <tr><td><strong>Horas Disponibles:</strong></td><td>${client.horasDisponibles || 'N/A'} horas/día</td></tr>
+                        <tr><td><strong>Horario Preferido:</strong></td><td>${client.horarioPreferido || 'N/A'}</td></tr>
+                    </table>
+                </div>
+
+                ${client.notasAdicionales ? `
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">📝 Notas Adicionales</h3>
+                <p style="background: var(--secondary); padding: 15px; border-radius: 8px;">${client.notasAdicionales}</p>
+                ` : ''}
+
+                <div class="section-divider"></div>
+                <h3 style="color: var(--highlight);">📊 Resumen de Actividad</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${clientTrainings.length}</div>
+                        <div class="stat-label">Planes de Entrenamiento</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${clientEvaluations.length}</div>
+                        <div class="stat-label">Evaluaciones</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${clientNutrition.length}</div>
+                        <div class="stat-label">Planes Nutricionales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${clientNotes.length}</div>
+                        <div class="stat-label">Notas Registradas</div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('clientDetailContent').innerHTML = content;
+            currentClientId = clientId;
+            document.getElementById('clientDetailModal').classList.add('active');
+        }
+
+        function deleteClient(clientId) {
+            if (confirm('¿Estás seguro de eliminar este cliente? Se eliminarán todos sus datos asociados.')) {
+                clients = clients.filter(c => c.id !== clientId);
+                trainings = trainings.filter(t => t.clienteId !== clientId);
+                evaluations = evaluations.filter(e => e.clienteId !== clientId);
+                nutritionPlans = nutritionPlans.filter(n => n.clienteId !== clientId);
+                notes = notes.filter(n => n.clienteId !== clientId);
+                saveData();
+                renderAllData();
+                alert('✅ Cliente eliminado correctamente');
+            }
+        }
+
+        function searchClients() {
+            const searchTerm = document.getElementById('searchClients').value.toLowerCase();
+            const container = document.getElementById('clientsList');
+            const items = container.querySelectorAll('.list-item');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        // ENTRENAMIENTOS
+        function openTrainingModal(trainingId = null) {
+            currentEditId = trainingId;
+            updateClientSelects();
+            weeklyExercises = { lunes: [], martes: [], miercoles: [], jueves: [], viernes: [], sabado: [], domingo: [] };
+            
+            const modal = document.getElementById('trainingModal');
+            const form = document.getElementById('trainingForm');
+            
+            if (trainingId) {
+                const training = trainings.find(t => t.id === trainingId);
+                if (training) {
+                    Object.keys(training).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = training[key] || '';
+                    });
+                    if (training.exercises) {
+                        weeklyExercises = training.exercises;
+                        renderAllExercises();
+                    }
+                }
+            } else {
+                form.reset();
+                setDefaultDate();
+                clearAllExercises();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function addExerciseDay(day) {
+            const exerciseName = prompt('Nombre del ejercicio:');
+            if (!exerciseName) return;
+
+            const series = prompt('Series:') || '';
+            const repeticiones = prompt('Repeticiones:') || '';
+            const carga = prompt('Carga (kg):') || '';
+            const descanso = prompt('Descanso (seg):') || '';
+            const tempo = prompt('Tempo (ej: 3-0-1-0):') || '';
+            const rir = prompt('RIR (Reps en Reserva):') || '';
+
+            const exercise = {
+                id: Date.now().toString() + Math.random(),
+                name: exerciseName,
+                series,
+                repeticiones,
+                carga,
+                descanso,
+                tempo,
+                rir
+            };
+
+            weeklyExercises[day].push(exercise);
+            renderDayExercises(day);
+        }
+
+        function renderDayExercises(day) {
+            const container = document.getElementById(`exercises-${day}`);
+            const exercises = weeklyExercises[day] || [];
+
+            if (exercises.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); font-style: italic; padding: 10px;">Día de descanso o sin ejercicios asignados</p>';
+                return;
+            }
+
+            container.innerHTML = exercises.map((ex, index) => `
+                <div class="exercise-block">
+                    <div class="exercise-header">
+                        <span class="exercise-name">${index + 1}. ${ex.name}</span>
+                        <button type="button" class="icon-btn delete-btn" onclick="removeExercise('${day}', '${ex.id}')">🗑️</button>
+                    </div>
+                    <div class="exercise-details">
+                        ${ex.series ? `<div class="detail-item"><span class="detail-label">Series</span><span class="detail-value">${ex.series}</span></div>` : ''}
+                        ${ex.repeticiones ? `<div class="detail-item"><span class="detail-label">Repeticiones</span><span class="detail-value">${ex.repeticiones}</span></div>` : ''}
+                        ${ex.carga ? `<div class="detail-item"><span class="detail-label">Carga</span><span class="detail-value">${ex.carga} kg</span></div>` : ''}
+                        ${ex.descanso ? `<div class="detail-item"><span class="detail-label">Descanso</span><span class="detail-value">${ex.descanso}s</span></div>` : ''}
+                        ${ex.tempo ? `<div class="detail-item"><span class="detail-label">Tempo</span><span class="detail-value">${ex.tempo}</span></div>` : ''}
+                        ${ex.rir ? `<div class="detail-item"><span class="detail-label">RIR</span><span class="detail-value">${ex.rir}</span></div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderAllExercises() {
+            ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].forEach(day => {
+                renderDayExercises(day);
+            });
+        }
+
+        function clearAllExercises() {
+            ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'].forEach(day => {
+                document.getElementById(`exercises-${day}`).innerHTML = '<p style="color: var(--text-secondary); font-style: italic; padding: 10px;">Día de descanso o sin ejercicios asignados</p>';
+            });
+        }
+
+        function removeExercise(day, exerciseId) {
+            weeklyExercises[day] = weeklyExercises[day].filter(ex => ex.id !== exerciseId);
+            renderDayExercises(day);
+        }
+
+        function saveTraining(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const trainingData = {
+                id: currentEditId || Date.now().toString(),
+                fechaCreacion: currentEditId ? trainings.find(t => t.id === currentEditId).fechaCreacion : new Date().toISOString(),
+                exercises: weeklyExercises
+            };
+            
+            formData.forEach((value, key) => {
+                trainingData[key] = value;
+            });
+
+            if (currentEditId) {
+                const index = trainings.findIndex(t => t.id === currentEditId);
+                trainings[index] = trainingData;
+            } else {
+                trainings.push(trainingData);
+            }
+
+            saveData();
+            renderTrainings();
+            closeModal('trainingModal');
+            alert('✅ Plan de entrenamiento guardado correctamente');
+        }
+
+        function renderTrainings() {
+            const container = document.getElementById('trainingsList');
+            
+            if (trainings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💪</div>
+                        <h3>No hay planes de entrenamiento</h3>
+                        <p>Crea el primer plan de entrenamiento</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = trainings.map(training => {
+                const client = clients.find(c => c.id === training.clienteId);
+                const clientName = client ? client.nombre : 'Cliente no encontrado';
+                
+                return `
+                    <div class="list-item" onclick="viewTrainingDetail('${training.id}')">
+                        <div class="list-item-header">
+                            <div>
+                                <div class="list-item-title">${training.nombrePlan}</div>
+                                <div class="list-item-meta">
+                                    <span class="badge">👤 ${clientName}</span>
+                                    <span class="badge badge-success">${training.tipoPlan || 'N/A'}</span>
+                                    <span class="badge badge-warning">${training.objetivoPlan || 'N/A'}</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="event.stopPropagation(); openTrainingModal('${training.id}')">✏️ Editar</button>
+                                <button class="icon-btn delete-btn" onclick="event.stopPropagation(); deleteTraining('${training.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="list-item-meta">
+                            📅 ${formatDate(training.fechaInicio)} - ${formatDate(training.fechaFin)} | 
+                            ⏱️ ${training.duracionSemanas || 'N/A'} semanas | 
+                            📊 ${training.frecuenciaSemanal || 'N/A'} días/semana
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewTrainingDetail(trainingId) {
+            const training = trainings.find(t => t.id === trainingId);
+            if (!training) return;
+
+            const client = clients.find(c => c.id === training.clienteId);
+            const clientName = client ? client.nombre : 'Cliente no encontrado';
+
+            let content = `
+                <div class="card">
+                    <h3 style="color: var(--highlight);">📋 Información General</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr><td><strong>Cliente:</strong></td><td>${clientName}</td></tr>
+                            <tr><td><strong>Nombre del Plan:</strong></td><td>${training.nombrePlan}</td></tr>
+                            <tr><td><strong>Tipo:</strong></td><td>${training.tipoPlan || 'N/A'}</td></tr>
+                            <tr><td><strong>Objetivo:</strong></td><td>${training.objetivoPlan || 'N/A'}</td></tr>
+                            <tr><td><strong>Fecha Inicio:</strong></td><td>${formatDate(training.fechaInicio)}</td></tr>
+                            <tr><td><strong>Fecha Fin:</strong></td><td>${formatDate(training.fechaFin)}</td></tr>
+                            <tr><td><strong>Duración:</strong></td><td>${training.duracionSemanas || 'N/A'} semanas</td></tr>
+                            <tr><td><strong>Fase Periodización:</strong></td><td>${training.fasePeriodizacion || 'N/A'}</td></tr>
+                            <tr><td><strong>Frecuencia Semanal:</strong></td><td>${training.frecuenciaSemanal || 'N/A'} días</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                ${training.descripcionPlan ? `
+                <div class="card">
+                    <h3 style="color: var(--highlight);">📝 Descripción del Plan</h3>
+                    <p style="background: var(--secondary); padding: 15px; border-radius: 8px; white-space: pre-wrap;">${training.descripcionPlan}</p>
+                </div>
+                ` : ''}
+
+                <div class="card">
+                    <h3 style="color: var(--highlight);">📅 Planificación Semanal</h3>
+            `;
+
+            const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+            const dayNames = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO', 'DOMINGO'];
+
+            days.forEach((day, index) => {
+                const exercises = training.exercises && training.exercises[day] ? training.exercises[day] : [];
+                
+                content += `
+                    <div class="week-day" style="margin-bottom: 20px;">
+                        <div class="week-day-header">
+                            <span>${dayNames[index]}</span>
+                        </div>
+                `;
+
+                if (exercises.length === 0) {
+                    content += '<p style="color: var(--text-secondary); font-style: italic; padding: 10px;">Día de descanso</p>';
+                } else {
+                    exercises.forEach((ex, i) => {
+                        content += `
+                            <div class="exercise-block">
+                                <div class="exercise-header">
+                                    <span class="exercise-name">${i + 1}. ${ex.name}</span>
+                                </div>
+                                <div class="exercise-details">
+                                    ${ex.series ? `<div class="detail-item"><span class="detail-label">Series</span><span class="detail-value">${ex.series}</span></div>` : ''}
+                                    ${ex.repeticiones ? `<div class="detail-item"><span class="detail-label">Repeticiones</span><span class="detail-value">${ex.repeticiones}</span></div>` : ''}
+                                    ${ex.carga ? `<div class="detail-item"><span class="detail-label">Carga</span><span class="detail-value">${ex.carga} kg</span></div>` : ''}
+                                    ${ex.descanso ? `<div class="detail-item"><span class="detail-label">Descanso</span><span class="detail-value">${ex.descanso}s</span></div>` : ''}
+                                    ${ex.tempo ? `<div class="detail-item"><span class="detail-label">Tempo</span><span class="detail-value">${ex.tempo}</span></div>` : ''}
+                                    ${ex.rir ? `<div class="detail-item"><span class="detail-label">RIR</span><span class="detail-value">${ex.rir}</span></div>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                content += '</div>';
+            });
+
+            content += '</div>';
+
+            if (training.sistemaEntrenamiento || training.intensidadMedia || training.volumenTotal) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">📝 Metodología</h3>
+                        <div class="table-container">
+                            <table>
+                                ${training.sistemaEntrenamiento ? `<tr><td><strong>Sistema:</strong></td><td>${training.sistemaEntrenamiento}</td></tr>` : ''}
+                                ${training.intensidadMedia ? `<tr><td><strong>Intensidad Media:</strong></td><td>${training.intensidadMedia}</td></tr>` : ''}
+                                ${training.volumenTotal ? `<tr><td><strong>Volumen Total:</strong></td><td>${training.volumenTotal} sets/semana</td></tr>` : ''}
+                                ${training.densidad ? `<tr><td><strong>Densidad:</strong></td><td>${training.densidad}</td></tr>` : ''}
+                            </table>
+                        </div>
+                        ${training.progresionProgramada ? `<p style="margin-top: 15px;"><strong>Progresión:</strong><br>${training.progresionProgramada}</p>` : ''}
+                        ${training.ejerciciosProhibidos ? `<p style="margin-top: 15px; color: var(--warning);"><strong>⚠️ Ejercicios Contraindicados:</strong><br>${training.ejerciciosProhibidos}</p>` : ''}
+                        ${training.observacionesEntrenador ? `<p style="margin-top: 15px;"><strong>Observaciones:</strong><br>${training.observacionesEntrenador}</p>` : ''}
+                    </div>
+                `;
+            }
+
+            document.getElementById('trainingDetailContent').innerHTML = content;
+            currentTrainingId = trainingId;
+            document.getElementById('trainingDetailModal').classList.add('active');
+        }
+
+        function deleteTraining(trainingId) {
+            if (confirm('¿Estás seguro de eliminar este plan de entrenamiento?')) {
+                trainings = trainings.filter(t => t.id !== trainingId);
+                saveData();
+                renderTrainings();
+                alert('✅ Plan eliminado correctamente');
+            }
+        }
+
+        // EVALUACIONES
+        function openEvaluationModal(evalId = null) {
+            currentEditId = evalId;
+            updateClientSelects();
+            const modal = document.getElementById('evaluationModal');
+            const form = document.getElementById('evaluationForm');
+            
+            if (evalId) {
+                const evaluation = evaluations.find(e => e.id === evalId);
+                if (evaluation) {
+                    Object.keys(evaluation).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = evaluation[key] || '';
+                    });
+                }
+            } else {
+                form.reset();
+                setDefaultDate();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function saveEvaluation(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const evalData = {
+                id: currentEditId || Date.now().toString(),
+                fechaCreacion: currentEditId ? evaluations.find(ev => ev.id === currentEditId).fechaCreacion : new Date().toISOString()
+            };
+            
+            formData.forEach((value, key) => {
+                evalData[key] = value;
+            });
+
+            if (currentEditId) {
+                const index = evaluations.findIndex(ev => ev.id === currentEditId);
+                evaluations[index] = evalData;
+            } else {
+                evaluations.push(evalData);
+            }
+
+            saveData();
+            renderEvaluations();
+            closeModal('evaluationModal');
+            alert('✅ Evaluación guardada correctamente');
+        }
+
+        function renderEvaluations() {
+            const container = document.getElementById('evaluationsList');
+            
+            if (evaluations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <h3>No hay evaluaciones registradas</h3>
+                        <p>Comienza registrando la primera evaluación</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = evaluations.map(evaluation => {
+                const client = clients.find(c => c.id === evaluation.clienteId);
+                const clientName = client ? client.nombre : 'Cliente no encontrado';
+                
+                return `
+                    <div class="list-item" onclick="viewEvaluationDetail('${evaluation.id}')">
+                        <div class="list-item-header">
+                            <div>
+                                <div class="list-item-title">Evaluación - ${clientName}</div>
+                                <div class="list-item-meta">
+                                    <span class="badge">${evaluation.tipoEvaluacion || 'N/A'}</span>
+                                    <span class="badge badge-success">📅 ${formatDate(evaluation.fechaEvaluacion)}</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="event.stopPropagation(); openEvaluationModal('${evaluation.id}')">✏️ Editar</button>
+                                <button class="icon-btn delete-btn" onclick="event.stopPropagation(); deleteEvaluation('${evaluation.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewEvaluationDetail(evalId) {
+            const evaluation = evaluations.find(e => e.id === evalId);
+            if (!evaluation) return;
+
+            const client = clients.find(c => c.id === evaluation.clienteId);
+            const clientName = client ? client.nombre : 'Cliente no encontrado';
+
+            let content = `
+                <div class="card">
+                    <h3 style="color: var(--highlight);">📋 Información General</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr><td><strong>Cliente:</strong></td><td>${clientName}</td></tr>
+                            <tr><td><strong>Fecha Evaluación:</strong></td><td>${formatDate(evaluation.fechaEvaluacion)}</td></tr>
+                            <tr><td><strong>Tipo:</strong></td><td>${evaluation.tipoEvaluacion || 'N/A'}</td></tr>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            // Tests de Fuerza
+            if (evaluation.pressBanca1RM || evaluation.sentadilla1RM || evaluation.pesoMuerto1RM) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">💪 Tests de Fuerza</h3>
+                        <div class="table-container">
+                            <table>
+                                ${evaluation.pressBanca1RM ? `<tr><td><strong>Press Banca 1RM:</strong></td><td>${evaluation.pressBanca1RM} kg</td></tr>` : ''}
+                                ${evaluation.sentadilla1RM ? `<tr><td><strong>Sentadilla 1RM:</strong></td><td>${evaluation.sentadilla1RM} kg</td></tr>` : ''}
+                                ${evaluation.pesoMuerto1RM ? `<tr><td><strong>Peso Muerto 1RM:</strong></td><td>${evaluation.pesoMuerto1RM} kg</td></tr>` : ''}
+                                ${evaluation.pressMilitar1RM ? `<tr><td><strong>Press Militar 1RM:</strong></td><td>${evaluation.pressMilitar1RM} kg</td></tr>` : ''}
+                                ${evaluation.dominadasMax ? `<tr><td><strong>Dominadas Máximas:</strong></td><td>${evaluation.dominadasMax}</td></tr>` : ''}
+                                ${evaluation.flexionesMax ? `<tr><td><strong>Flexiones Máximas:</strong></td><td>${evaluation.flexionesMax}</td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tests de Resistencia
+            if (evaluation.vo2Max || evaluation.testCooper || evaluation.umbralAnaerobico) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">🏃 Tests de Resistencia</h3>
+                        <div class="table-container">
+                            <table>
+                                ${evaluation.vo2Max ? `<tr><td><strong>VO2 Max:</strong></td><td>${evaluation.vo2Max} ml/kg/min</td></tr>` : ''}
+                                ${evaluation.testCooper ? `<tr><td><strong>Test Cooper:</strong></td><td>${evaluation.testCooper} metros</td></tr>` : ''}
+                                ${evaluation.umbralAnaerobico ? `<tr><td><strong>Umbral Anaeróbico:</strong></td><td>${evaluation.umbralAnaerobico} bpm</td></tr>` : ''}
+                                ${evaluation.testConconi ? `<tr><td><strong>Test Conconi:</strong></td><td>${evaluation.testConconi}</td></tr>` : ''}
+                                ${evaluation.burpees3min ? `<tr><td><strong>Burpees 3 min:</strong></td><td>${evaluation.burpees3min}</td></tr>` : ''}
+                                ${evaluation.testRuffier ? `<tr><td><strong>Test Ruffier:</strong></td><td>${evaluation.testRuffier}</td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tests de Velocidad y Potencia
+            if (evaluation.sprint30m || evaluation.saltoVertical || evaluation.saltoHorizontal) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">⚡ Velocidad y Potencia</h3>
+                        <div class="table-container">
+                            <table>
+                                ${evaluation.sprint30m ? `<tr><td><strong>Sprint 30m:</strong></td><td>${evaluation.sprint30m} seg</td></tr>` : ''}
+                                ${evaluation.sprint60m ? `<tr><td><strong>Sprint 60m:</strong></td><td>${evaluation.sprint60m} seg</td></tr>` : ''}
+                                ${evaluation.sprint100m ? `<tr><td><strong>Sprint 100m:</strong></td><td>${evaluation.sprint100m} seg</td></tr>` : ''}
+                                ${evaluation.saltoVertical ? `<tr><td><strong>Salto Vertical:</strong></td><td>${evaluation.saltoVertical} cm</td></tr>` : ''}
+                                ${evaluation.saltoHorizontal ? `<tr><td><strong>Salto Horizontal:</strong></td><td>${evaluation.saltoHorizontal} cm</td></tr>` : ''}
+                                ${evaluation.testMargaria ? `<tr><td><strong>Test Margaria:</strong></td><td>${evaluation.testMargaria} watts</td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Composición Corporal
+            if (evaluation.pesoEval || evaluation.grasaCorporalEval) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">⚖️ Composición Corporal</h3>
+                        <div class="table-container">
+                            <table>
+                                ${evaluation.pesoEval ? `<tr><td><strong>Peso:</strong></td><td>${evaluation.pesoEval} kg</td></tr>` : ''}
+                                ${evaluation.grasaCorporalEval ? `<tr><td><strong>% Grasa Corporal:</strong></td><td>${evaluation.grasaCorporalEval}%</td></tr>` : ''}
+                                ${evaluation.masaMuscularEval ? `<tr><td><strong>Masa Muscular:</strong></td><td>${evaluation.masaMuscularEval} kg</td></tr>` : ''}
+                                ${evaluation.masaOsea ? `<tr><td><strong>Masa Ósea:</strong></td><td>${evaluation.masaOsea} kg</td></tr>` : ''}
+                                ${evaluation.aguaCorporal ? `<tr><td><strong>Agua Corporal:</strong></td><td>${evaluation.aguaCorporal}%</td></tr>` : ''}
+                                ${evaluation.grasaVisceral ? `<tr><td><strong>Grasa Visceral:</strong></td><td>${evaluation.grasaVisceral}</td></tr>` : ''}
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Perímetros
+            if (evaluation.perimetroCuello || evaluation.perimetroPecho || evaluation.perimetroCintura) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">📏 Perímetros (cm)</h3>
+                        <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                            ${evaluation.perimetroCuello ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Cuello</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroCuello}</div></div>` : ''}
+                            ${evaluation.perimetroPecho ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Pecho</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroPecho}</div></div>` : ''}
+                            ${evaluation.perimetroCintura ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Cintura</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroCintura}</div></div>` : ''}
+                            ${evaluation.perimetroCadera ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Cadera</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroCadera}</div></div>` : ''}
+                            ${evaluation.perimetroBrazoDer ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Brazo Der</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroBrazoDer}</div></div>` : ''}
+                            ${evaluation.perimetroBrazoIzq ? `<div style="background: var(--secondary); padding: 15px; border-radius: 8px; text-align: center;"><div style="color: var(--text-secondary); font-size: 0.9em;">Brazo Izq</div><div style="font-size: 1.5em; font-weight: 700; color: var(--highlight);">${evaluation.perimetroBrazoIzq}</div></div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Análisis
+            if (evaluation.fortalezas || evaluation.areasMejora || evaluation.recomendaciones) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">📊 Análisis y Conclusiones</h3>
+                        ${evaluation.fortalezas ? `<div style="margin-bottom: 15px;"><strong style="color: var(--success);">✅ Fortalezas:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${evaluation.fortalezas}</p></div>` : ''}
+                        ${evaluation.areasMejora ? `<div style="margin-bottom: 15px;"><strong style="color: var(--warning);">⚠️ Áreas de Mejora:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${evaluation.areasMejora}</p></div>` : ''}
+                        ${evaluation.recomendaciones ? `<div style="margin-bottom: 15px;"><strong style="color: var(--highlight);">💡 Recomendaciones:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${evaluation.recomendaciones}</p></div>` : ''}
+                        ${evaluation.observacionesGenerales ? `<div><strong>📝 Observaciones:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${evaluation.observacionesGenerales}</p></div>` : ''}
+                    </div>
+                `;
+            }
+
+            const modal = document.getElementById('clientDetailModal');
+            document.getElementById('clientDetailContent').innerHTML = content;
+            modal.querySelector('.card-title').textContent = 'Evaluación Detallada';
+            modal.classList.add('active');
+        }
+
+        function deleteEvaluation(evalId) {
+            if (confirm('¿Estás seguro de eliminar esta evaluación?')) {
+                evaluations = evaluations.filter(e => e.id !== evalId);
+                saveData();
+                renderEvaluations();
+                alert('✅ Evaluación eliminada correctamente');
+            }
+        }
+
+        // NUTRICIÓN
+        function openNutritionModal(nutritionId = null) {
+            currentEditId = nutritionId;
+            updateClientSelects();
+            const modal = document.getElementById('nutritionModal');
+            const form = document.getElementById('nutritionForm');
+            
+            if (nutritionId) {
+                const nutrition = nutritionPlans.find(n => n.id === nutritionId);
+                if (nutrition) {
+                    Object.keys(nutrition).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = nutrition[key] || '';
+                    });
+                }
+            } else {
+                form.reset();
+                setDefaultDate();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function saveNutrition(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const nutritionData = {
+                id: currentEditId || Date.now().toString(),
+                fechaCreacion: currentEditId ? nutritionPlans.find(n => n.id === currentEditId).fechaCreacion : new Date().toISOString()
+            };
+            
+            formData.forEach((value, key) => {
+                nutritionData[key] = value;
+            });
+
+            if (currentEditId) {
+                const index = nutritionPlans.findIndex(n => n.id === currentEditId);
+                nutritionPlans[index] = nutritionData;
+            } else {
+                nutritionPlans.push(nutritionData);
+            }
+
+            saveData();
+            renderNutrition();
+            closeModal('nutritionModal');
+            alert('✅ Plan nutricional guardado correctamente');
+        }
+
+        function renderNutrition() {
+            const container = document.getElementById('nutritionList');
+            
+            if (nutritionPlans.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🥗</div>
+                        <h3>No hay planes nutricionales</h3>
+                        <p>Crea el primer plan nutricional</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = nutritionPlans.map(nutrition => {
+                const client = clients.find(c => c.id === nutrition.clienteId);
+                const clientName = client ? client.nombre : 'Cliente no encontrado';
+                
+                return `
+                    <div class="list-item" onclick="viewNutritionDetail('${nutrition.id}')">
+                        <div class="list-item-header">
+                            <div>
+                                <div class="list-item-title">${nutrition.nombrePlanNutri}</div>
+                                <div class="list-item-meta">
+                                    <span class="badge">👤 ${clientName}</span>
+                                    <span class="badge badge-success">${nutrition.objetivoNutricional || 'N/A'}</span>
+                                    <span class="badge badge-warning">${nutrition.caloriasObjetivo || 'N/A'} kcal</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="event.stopPropagation(); openNutritionModal('${nutrition.id}')">✏️ Editar</button>
+                                <button class="icon-btn delete-btn" onclick="event.stopPropagation(); deleteNutrition('${nutrition.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="list-item-meta">
+                            📅 ${formatDate(nutrition.fechaInicioNutri)} | 
+                            🍗 ${nutrition.proteinasDiarias || 'N/A'}g | 
+                            🍞 ${nutrition.carbohidratosDiarios || 'N/A'}g | 
+                            🥑 ${nutrition.grasasDiarias || 'N/A'}g
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function viewNutritionDetail(nutritionId) {
+            const nutrition = nutritionPlans.find(n => n.id === nutritionId);
+            if (!nutrition) return;
+
+            const client = clients.find(c => c.id === nutrition.clienteId);
+            const clientName = client ? client.nombre : 'Cliente no encontrado';
+
+            let content = `
+                <div class="card">
+                    <h3 style="color: var(--highlight);">📋 Información General</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr><td><strong>Cliente:</strong></td><td>${clientName}</td></tr>
+                            <tr><td><strong>Nombre del Plan:</strong></td><td>${nutrition.nombrePlanNutri}</td></tr>
+                            <tr><td><strong>Objetivo:</strong></td><td>${nutrition.objetivoNutricional || 'N/A'}</td></tr>
+                            <tr><td><strong>Fecha Inicio:</strong></td><td>${formatDate(nutrition.fechaInicioNutri)}</td></tr>
+                            ${nutrition.fechaFinNutri ? `<tr><td><strong>Fecha Fin:</strong></td><td>${formatDate(nutrition.fechaFinNutri)}</td></tr>` : ''}
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--highlight);">🔢 Macronutrientes Diarios</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${nutrition.caloriasObjetivo || 'N/A'}</div>
+                            <div class="stat-label">Calorías (kcal)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${nutrition.proteinasDiarias || 'N/A'}g</div>
+                            <div class="stat-label">Proteínas (${nutrition.porcentajeProteinas || ''}%)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${nutrition.carbohidratosDiarios || 'N/A'}g</div>
+                            <div class="stat-label">Carbohidratos (${nutrition.porcentajeCarbohidratos || ''}%)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${nutrition.grasasDiarias || 'N/A'}g</div>
+                            <div class="stat-label">Grasas (${nutrition.porcentajeGrasas || ''}%)</div>
+                        </div>
+                    </div>
+                    ${nutrition.tmb || nutrition.tdee ? `
+                        <div style="margin-top: 20px;">
+                            <div class="table-container">
+                                <table>
+                                    ${nutrition.tmb ? `<tr><td><strong>TMB:</strong></td><td>${nutrition.tmb} kcal</td></tr>` : ''}
+                                    ${nutrition.tdee ? `<tr><td><strong>TDEE:</strong></td><td>${nutrition.tdee} kcal</td></tr>` : ''}
+                                    ${nutrition.fibraDiaria ? `<tr><td><strong>Fibra:</strong></td><td>${nutrition.fibraDiaria} g</td></tr>` : ''}
+                                    ${nutrition.aguaDiaria ? `<tr><td><strong>Agua:</strong></td><td>${nutrition.aguaDiaria} litros</td></tr>` : ''}
+                                </table>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="card">
+                    <h3 style="color: var(--highlight);">🍽️ Menú Semanal</h3>
+            `;
+
+            const days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+            const menuKeys = ['menuLunes', 'menuMartes', 'menuMiercoles', 'menuJueves', 'menuViernes', 'menuSabado', 'menuDomingo'];
+
+            menuKeys.forEach((key, index) => {
+                if (nutrition[key]) {
+                    content += `
+                        <div class="week-day" style="margin-bottom: 15px;">
+                            <div class="week-day-header">
+                                <span>${days[index].toUpperCase()}</span>
+                            </div>
+                            <div style="background: var(--secondary); padding: 15px; border-radius: 8px; white-space: pre-wrap;">${nutrition[key]}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            content += '</div>';
+
+            if (nutrition.suplementosRecomendados) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">💊 Suplementación</h3>
+                        <div style="background: var(--secondary); padding: 15px; border-radius: 8px; white-space: pre-wrap;">${nutrition.suplementosRecomendados}</div>
+                    </div>
+                `;
+            }
+
+            if (nutrition.preEntrenamiento || nutrition.intraEntrenamiento || nutrition.postEntrenamiento) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">⚡ Nutrición Peri-Entrenamiento</h3>
+                        ${nutrition.preEntrenamiento ? `<div style="margin-bottom: 15px;"><strong style="color: var(--success);">Pre-Entrenamiento:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${nutrition.preEntrenamiento}</p></div>` : ''}
+                        ${nutrition.intraEntrenamiento ? `<div style="margin-bottom: 15px;"><strong style="color: var(--success);">Intra-Entrenamiento:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${nutrition.intraEntrenamiento}</p></div>` : ''}
+                        ${nutrition.postEntrenamiento ? `<div><strong style="color: var(--success);">Post-Entrenamiento:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${nutrition.postEntrenamiento}</p></div>` : ''}
+                    </div>
+                `;
+            }
+
+            if (nutrition.alimentosRecomendados || nutrition.alimentosEvitar) {
+                content += `
+                    <div class="card">
+                        <h3 style="color: var(--highlight);">🍎 Alimentos</h3>
+                        ${nutrition.alimentosRecomendados ? `<div style="margin-bottom: 15px;"><strong style="color: var(--success);">✅ Recomendados:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${nutrition.alimentosRecomendados}</p></div>` : ''}
+                        ${nutrition.alimentosEvitar ? `<div><strong style="color: var(--warning);">⛔ Evitar:</strong><p style="background: var(--secondary); padding: 15px; border-radius: 8px; margin-top: 8px;">${nutrition.alimentosEvitar}</p></div>` : ''}
+                    </div>
+                `;
+            }
+
+            const modal = document.getElementById('clientDetailModal');
+            document.getElementById('clientDetailContent').innerHTML = content;
+            modal.querySelector('.card-title').textContent = 'Plan Nutricional Detallado';
+            modal.classList.add('active');
+        }
+
+        function deleteNutrition(nutritionId) {
+            if (confirm('¿Estás seguro de eliminar este plan nutricional?')) {
+                nutritionPlans = nutritionPlans.filter(n => n.id !== nutritionId);
+                saveData();
+                renderNutrition();
+                alert('✅ Plan nutricional eliminado correctamente');
+            }
+        }
+
+        // NOTAS
+        function openNoteModal(noteId = null) {
+            currentEditId = noteId;
+            updateClientSelects();
+            const modal = document.getElementById('noteModal');
+            const form = document.getElementById('noteForm');
+            
+            if (noteId) {
+                const note = notes.find(n => n.id === noteId);
+                if (note) {
+                    Object.keys(note).forEach(key => {
+                        const input = form.elements[key];
+                        if (input) input.value = note[key] || '';
+                    });
+                }
+            } else {
+                form.reset();
+                setDefaultDate();
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function saveNote(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const noteData = {
+                id: currentEditId || Date.now().toString(),
+                fechaCreacion: currentEditId ? notes.find(n => n.id === currentEditId).fechaCreacion : new Date().toISOString()
+            };
+            
+            formData.forEach((value, key) => {
+                noteData[key] = value;
+            });
+
+            if (currentEditId) {
+                const index = notes.findIndex(n => n.id === currentEditId);
+                notes[index] = noteData;
+            } else {
+                notes.push(noteData);
+            }
+
+            saveData();
+            renderNotes();
+            closeModal('noteModal');
+            alert('✅ Nota guardada correctamente');
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('notesList');
+            
+            if (notes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <h3>No hay notas registradas</h3>
+                        <p>Comienza registrando la primera nota</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedNotes = [...notes].sort((a, b) => new Date(b.fechaNota) - new Date(a.fechaNota));
+
+            container.innerHTML = sortedNotes.map(note => {
+                const client = note.clienteId ? clients.find(c => c.id === note.clienteId) : null;
+                const clientName = client ? client.nombre : 'General';
+                
+                const priorityColors = {
+                    alta: 'var(--highlight)',
+                    media: 'var(--warning)',
+                    baja: 'var(--success)'
+                };
+
+                return `
+                    <div class="list-item">
+                        <div class="list-item-header">
+                            <div>
+                                <div class="list-item-title">${note.tituloNota}</div>
+                                <div class="list-item-meta">
+                                    <span class="badge">👤 ${clientName}</span>
+                                    <span class="badge" style="background: ${priorityColors[note.prioridad] || 'var(--accent)'};">${note.prioridad || 'media'}</span>
+                                    <span class="badge badge-success">${note.categoriaNota || 'general'}</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="icon-btn" onclick="openNoteModal('${note.id}')">✏️ Editar</button>
+                                <button class="icon-btn delete-btn" onclick="deleteNote('${note.id}')">🗑️</button>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; color: var(--text-secondary);">
+                            📅 ${formatDate(note.fechaNota)}
+                        </div>
+                        <div style="margin-top: 10px; background: var(--secondary); padding: 12px; border-radius: 8px;">
+                            ${note.contenidoNota}
+                        </div>
+                        ${note.accionesNota ? `
+                            <div style="margin-top: 10px; padding: 10px; border-left: 3px solid var(--highlight); background: var(--accent);">
+                                <strong>Acciones:</strong> ${note.accionesNota}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteNote(noteId) {
+            if (confirm('¿Estás seguro de eliminar esta nota?')) {
+                notes = notes.filter(n => n.id !== noteId);
+                saveData();
+                renderNotes();
+                alert('✅ Nota eliminada correctamente');
+            }
+        }
+
+        // UTILIDADES
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            currentEditId = null;
+        }
+
+        function updateClientSelects() {
+            const selects = [
+                document.getElementById('trainingClientSelect'),
+                document.getElementById('evaluationClientSelect'),
+                document.getElementById('nutritionClientSelect'),
+                document.getElementById('noteClientSelect')
+            ];
+
+            selects.forEach(select => {
+                if (select) {
+                    const currentValue = select.value;
+                    const options = clients.map(client => 
+                        `<option value="${client.id}">${client.nombre}</option>`
+                    ).join('');
+                    
+                    if (select.id === 'noteClientSelect') {
+                        select.innerHTML = '<option value="">General (sin cliente específico)</option>' + options;
+                    } else {
+                        select.innerHTML = '<option value="">Seleccionar cliente...</option>' + options;
+                    }
+                    
+                    select.value = currentValue;
+                }
+            });
+        }
+
+        function renderAllData() {
+            renderClients();
+            renderTrainings();
+            renderEvaluations();
+            renderNutrition();
+            renderNotes();
+            updateClientSelects();
+        }
+
+        function calcularEdad(fechaNacimiento) {
+            if (!fechaNacimiento) return 'N/A';
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            const mes = hoy.getMonth() - nacimiento.getMonth();
+            if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            return edad;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // EXPORTACIÓN PDF
+        function exportClientToPDF() {
+            window.print();
+        }
+
+        function exportTrainingToPDF() {
+            window.print();
+        }
+
+        function printClient() {
+            window.print();
+        }
+
+        function printTraining() {
+            window.print();
+        }
+
+        // Cerrar modales con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
